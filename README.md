@@ -8,8 +8,8 @@ A sharded manual managed NoSQL database built on Node.js for the cool kids.
 * [Nitlix](https://github.com/nitlix) - The creator of this project
 
 ## Quick showcase 
-[![Showcase Script]([https://i.imgur.com/YlFrY3X.png])]
-[![Showcase JSON]([https://i.imgur.com/s9HwcMr.png])]
+[![Showcase Script](https://i.imgur.com/YlFrY3X.png)]
+[![Showcase JSON](https://i.imgur.com/s9HwcMr.png)]
 
 ## This library is still being developed. It may have some bugs!
 
