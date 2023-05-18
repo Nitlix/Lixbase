@@ -8,10 +8,10 @@ A sharded manual managed NoSQL database built on Node.js for the cool kids.
 * [Nitlix](https://github.com/nitlix) - The creator of this project
 
 ## Quick showcase 
-Our Showcase Script:
+Our Showcase Script (showcase.js)
 ![Showcase Script](https://i.imgur.com/w1yBrgr.png)
 
-The output JSON, stored away or used.
+The output JSON, stored away or used (custom_dir_name/shard_name.json).
 ![Showcase JSON](https://i.imgur.com/5u5DJRs.png)
 
 
