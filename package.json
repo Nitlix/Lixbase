@@ -1,0 +1,11 @@
+{
+  "name": "lixbase",
+  "version": "1.0.0",
+  "description": "A sharded manual managed NoSQL database made for the cool kids.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nitlix S.T.",
+  "license": "ISC"
+}
