@@ -9,10 +9,10 @@ A sharded manual managed NoSQL database built on Node.js for the cool kids.
 
 ## Quick showcase 
 Our Showcase Script:
-[![Showcase Script](https://i.imgur.com/w1yBrgr.png)]
+![Showcase Script](https://i.imgur.com/w1yBrgr.png)
 
 The output JSON, stored away or used.
-[![Showcase JSON](https://i.imgur.com/5u5DJRs.png)]
+![Showcase JSON](https://i.imgur.com/5u5DJRs.png)
 
 
 ## This library is still being developed. It may have some bugs!
