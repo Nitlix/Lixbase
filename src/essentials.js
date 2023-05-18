@@ -1,3 +1,6 @@
+import fs from 'fs'
+
+
 export const lb = {
     id: {
         sharded: (steps, shard = "N1") => {
@@ -6,7 +9,7 @@ export const lb = {
             for (let i = 0; i < steps; i++) {
                 id += Math.random().toString(36).substring(2, 15)
             }
-            return `${shard}-${unix.str()}-${id}`
+            return `${shard}-${lb.unix.str()}-${id}`
         },
         random: (steps) => {
             //generate random uuid (steps) times
@@ -41,6 +44,9 @@ export const lb = {
     },
     log: (message) => {
         console.log(`[LIXBASE] ${util.colours.cyan}INFO: ${util.colours.reset} ${message} `)
+    },
+    error: (message) => {
+        console.log(`[LIXBASE] ${util.colours.red}ERROR: ${util.colours.reset} ${message} `)
     }
 }
 
@@ -59,3 +65,40 @@ const util = {
 }
 
 
+
+
+
+
+
+
+export async function checkExistence(path){
+    return new Promise(async (resolve, reject) => {
+        resolve(fs.existsSync(path))
+    })
+}
+
+export async function writeJSON(path, data){
+    return new Promise(async (resolve, reject) => {
+        await fs.writeFileSync(path, JSON.stringify(data))
+        resolve(true)
+    })
+}
+
+export async function readJSON(path){
+    return new Promise(async (resolve, reject) => {
+        try {
+            resolve(JSON.parse(await fs.readFileSync(path, 'utf8')))
+        }
+        catch(err){
+            reject(err)
+        }
+    })
+}
+        
+
+export async function createFolder(name){
+    return new Promise(async (resolve, reject) => {
+        fs.mkdirSync(name)
+        resolve(true)
+    })
+}
