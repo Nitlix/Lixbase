@@ -39,6 +39,9 @@ async function main() {
     //Create new session object in the database
     client.addObject('session', {data: 'test2'}, 5)
 
+    //Create another session object in the database, just for show
+    client.addObject('session', {data: 'test3'}, 5)
+
     //Save the database file
     client.save()
 
