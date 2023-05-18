@@ -40,9 +40,7 @@ Lixbase.Client = class {
         }
     }
 
-    async debug (bool) {
-        this.debug = bool
-    }
+
 
 
 
