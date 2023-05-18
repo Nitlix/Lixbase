@@ -44,6 +44,8 @@ Lixbase.Client = class {
         this.debug = bool
     }
 
+
+
     addObject(name, data={}, idsteps=2) {
         var id = lb.id.sharded(idsteps, this.shard)
         while (this.data.batch[name].includes(id)){
@@ -147,7 +149,16 @@ Lixbase.Client = class {
                 }
             }
 
+
+
             await this.save()
+
+            if (this.autosave > 0) {
+                setInterval(async () => {
+                    await this.save()
+                }, this.autosave * 1000)
+                lb.feature(`Autosaving every ${this.autosave} seconds.`)
+            }
 
 
             lb.log(`Loaded ${shard} data.`)

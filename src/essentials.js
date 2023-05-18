@@ -47,6 +47,9 @@ export const lb = {
     },
     error: (message) => {
         console.log(`[LIXBASE] ${util.colours.red}ERROR: ${util.colours.reset} ${message} `)
+    },
+    feature (message) {
+        console.log(`[LIXBASE] ${util.colours.yellow}FEATURE: ${util.colours.reset} ${message} `)
     }
 }
 
