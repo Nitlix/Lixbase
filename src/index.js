@@ -45,26 +45,28 @@ Lixbase.Client = class {
 
 
     addObject(name, data={}, idsteps=2) {
-        let uid = lb.id.sharded(idsteps, this.shard)
-        while (this.data.batch[name].includes(uid)){
-            uid = lb.id.sharded(idsteps, this.shard)
+        let id = lb.id.sharded(idsteps, this.shard)
+        while (this.data.batch[name].includes(id)){
+            id = lb.id.sharded(idsteps, this.shard)
         }
 
         //unique copy
         let objectData = JSON.parse(JSON.stringify(this.objectOrientation[name]))
-        objectData.id = uid
+
+        //set main properties
+        objectData.id = id
         objectData.type = name
 
-
+        //set custom properties
         for (var key in data) {
             objectData[key] = data[key]
         }
 
+        //push to database
+        this.data.batch[name].push(id)
+        this.data['id'][id] = objectData
 
-        this.data.batch[name].push(uid)
-        this.data['id'][uid] = objectData
-
-        return uid
+        return id
     }
 
 
