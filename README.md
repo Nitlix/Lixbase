@@ -130,9 +130,175 @@ The file used to store and manage our database's object located at **(custom_dir
 
 
 
+# 😎 Documentation
+Lixbase is assumed to be imported as "Lixbase" using
+```js
+import Lixbase from "lixbase"
+```
+
+
+
+## Client
+Initialise using:
+```js
+let client = new Lixbase.Client
+```
+
+
+## Client Properties
+
+<br />
+
+### Data
+```js
+client.data
+// The raw JSON data of your database.
+// Can be edited:
+client.data.id['hello'] = 'world'
+```
+
+<br />
+
+### Shard
+```js
+client.shard
+// The shard of your database
+// Initially set with:
+client.init("Shard goes here")
+```
+
+<br />
+
+### Autosave
+```js
+client.autosave
+// The period of autosave in your database (in seconds)
+// At init(), if it is lower than 0:
+// then autosaving won't happen.
+
+// Change it before init()
+```
+
+<br />
+
+### Object types
+```js
+client.objects
+// The storage for all batch object types of your database.
+// Stored in a dict.
+// Create a new object structure using:
+
+client.objects.account = {
+    id: null,
+    type: null,
+    name: null,
+    data: null
+}
+
+// WARNING!
+// Each object type registry must have an 'id' and 'type'.
+```
+<br />
+
+### Directory
+```js
+client.dir
+// The directory where the database filed will be saved in.
+// Change the variable before init()
+```
+
+<br />
+
+### Database Orientation
+```js
+client.databaseOrientation
+// When creating a database file 
+// Lixbase will use this default structure.
+// Do not edit out the existing modules unless
+// you are planning to build a custom
+// database using Lixbase.
+
+// Use before init()
+
+// Example usage:
+client.databaseOrientation = {
+    'id': {},
+    'batch': {},
+    'pets': {
+        'cats': [],
+        'dogs': []
+    }
+}
+```
+
+<br />
+
+### Formats
+```js
+client.format.id
+// The format for dynamically generating IDs on the go.
+// The variables are:
+// [SHARD], [TIME], [RANDOM]
+// Example:
+client.format.id = '[SHARD]-[TIME]-[RANDOM]'
+
+
+```
+<br />
+
+### Backups
+
+```js
+client.backups.enabled
+// Bool
+// Used at init() to trigger the backups thread.
+
+client.backups.interval
+// Integer interval in MINUTES.
+
+client.backups.dir
+// Custom directory name for backups
+
+client.backups.format
+// The format for backup file saves
+// The variables are:
+// [SHARD], [TIME], [RANDOM]
+// Example:
+client.backups.format = '[SHARD]-[TIME]'
+```
+
+## ⚒️ Functions
+
+### .init()
+```js
+await client.init(shard)
+
+// Initialises the database using the provided shard.
+// Default shard name: "N1"
+// Creates any new files needed
+// Starts out any background processes
+// like autosave and backups.
+
+// Use await for client.init(shard) to wait for it to finish.
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 ## This library is still being developed. It may have some bugs!
 
-More docs coming later.
+More docs coming later!
