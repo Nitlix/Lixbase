@@ -6,7 +6,7 @@ async function main() {
 
 
     //Custom object - Account
-    client.objectOrientation.account = {
+    client.objects.account = {
         id: null,
         type: null,
         data: null,
@@ -14,7 +14,7 @@ async function main() {
     }
 
     //Custom object - Session
-    client.objectOrientation.session = {
+    client.objects.session = {
         id: null,
         type: null,
         data: null
@@ -23,6 +23,9 @@ async function main() {
     //Custom saving directory
     client.dir = 'custom_dir_name'
 
+    //Custom Dynamic ID Generation
+    client.format.id = '[SHARD]-[TIME]-[RANDOM]'
+
     //No autosave
     client.autosave = -1
 
@@ -30,6 +33,7 @@ async function main() {
     client.autosave = 10
 
 
+    
     //Initialise our client after the configuration
     await client.init("shard_name")
 
@@ -41,6 +45,20 @@ async function main() {
 
     //Create another session object in the database, just for show
     client.addObject('session', {data: 'test3'}, 5)
+
+    //Brand new query function, like SQL, but on steroids.
+    //Returns a dict with objects that match the query function.
+    //(Which is matching the data key 'data' to the string 'test')
+    //Check out the output!
+    console.log(
+        client.query(['*'], (data)=>{
+            if (data.data == 'test') {
+                return true
+            }
+            return false
+        }, ['data', 'created'])
+    ) 
+
 
     //Save the database file
     client.save()
