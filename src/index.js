@@ -25,7 +25,7 @@ Lixbase.Client = class {
     constructor() {
         this.data = null,
         this.shard = 'N1',
-        this.autosave = true,
+        this.autosave = 60, //in seconds
         this.debug = false,
         this.objects = {},
         this.dir = 'LB_DATA',
@@ -41,6 +41,13 @@ Lixbase.Client = class {
         this.format = {
             id: '[SHARD]-[TIME]-[RANDOM]',
             next: '[SHARD]-0'
+        },
+        this.backups = {
+            enabled: true,
+            interval: 60, //in minutes
+            keep: 5, //number of backups to keep
+            dir: 'LB_BACKUPS',
+            format: '[SHARD]-[TIME]'
         }
     }
 
@@ -198,7 +205,7 @@ Lixbase.Client = class {
 
 
 
-    query(objects=[], callBackCheck=(data)=>{util.feature("This is the default query callback function!")}, returningData=[]){
+    query(objects=[], callBackCheck=(data)=>{util.feature("This is the default query callback function! Returning false."); return false}, returningData=[]){
         var finalData = {}
         if (objects != "*"){
             objects.forEach(object => {
@@ -239,7 +246,7 @@ Lixbase.Client = class {
 
 
 
-    async init (shard) {
+    async init (shard=this.shard) {
         return new Promise(async (resolve, reject) => {
             util.log(`Loading ${shard} data...`)
             this.shard = shard
@@ -298,17 +305,50 @@ Lixbase.Client = class {
 
             //Enable autosave
             if (this.autosave > 0) {
-                setInterval(async () => {
+                this.autosaveThread = setInterval(async () => {
                     await this.save()
                 }, this.autosave * 1000)
                 util.feature(`Autosaving every ${this.autosave} seconds.`)
             }
+
+            //Backups
+            if (this.backups.enabled) {
+                this.backupsThread = setInterval(async () => {
+                    
+                        await this.backup()
+                }, this.backups.interval * 60 * 1000)
+            }
+
+
+
 
 
 
             util.log(`Loaded ${shard} data.`)
             
 
+            resolve()
+        })
+
+
+        
+    }
+
+    async backup() {
+        return new Promise(async (resolve, reject) => {
+            if (await checkExistence(this.backups.dir) == false) {
+                util.feature(`No backups folder found. Creating a backups folder (${this.backups.dir})...`)
+                await createFolder(this.backups.dir)
+            }
+            let unix = util.unix.str()
+            let format = this.backups.format.toString()
+
+            format = format.replace("[TIME]", unix)
+            format = format.replace("[SHARD]", this.shard)
+            format = format.replace("[RANDOM]", this.genId.pure())
+            
+            await writeJSON(`${this.backups.dir}/${format}.json`, this.data)
+            util.feature(`Created backup ${format}.`)
             resolve()
         })
     }
@@ -326,6 +366,9 @@ Lixbase.Client = class {
             resolve()
         })
     }
+
+
+
 
 
 }

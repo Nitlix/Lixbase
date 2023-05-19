@@ -23,6 +23,9 @@ async function main() {
     //Custom saving directory
     client.dir = 'custom_dir_name'
 
+    //Custom backups directory
+    client.backups.dir = 'custom_backups_dir_name'
+
     //Custom Dynamic ID Generation
     client.format.id = '[SHARD]-[TIME]-[RANDOM]'
 
@@ -62,6 +65,9 @@ async function main() {
 
     //Save the database file
     client.save()
+
+    //Create a backup
+    client.backup()
 
 
 

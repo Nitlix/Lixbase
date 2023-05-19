@@ -1,6 +1,6 @@
 {
   "name": "lixbase",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A manual sharded and managed NoSQL object-focused database made for the cool kids.",
   "main": "src/index.js",
   "scripts": {
@@ -8,5 +8,6 @@
   },
   "author": "Nitlix S.T.",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "keywords": ["database", "nodejs", "backend", "management", "data"]
 }
