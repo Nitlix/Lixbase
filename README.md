@@ -39,7 +39,7 @@ More added soon.
 Here is our initial starting file, where we use Lixbase to manage our database files.
 
 ```js
-import Lixbase from "lixbase";
+import Lixbase from "./src/index.js"
 
 
 async function main() {
@@ -65,7 +65,7 @@ async function main() {
     client.dir = 'custom_dir_name'
 
     //Custom Dynamic ID Generation
-    client.format.id = '[SHARD]-look-at-this-sick-format-[TIME]-[RANDOM]'
+    client.format.id = '[SHARD]-[TIME]-[RANDOM]'
 
     //No autosave
     client.autosave = -1
@@ -86,6 +86,20 @@ async function main() {
 
     //Create another session object in the database, just for show
     client.addObject('session', {data: 'test3'}, 5)
+
+    //Brand new query function, like SQL, but on steroids.
+    //Returns a dict with objects that match the query function.
+    //(Which is matching the data key 'data' to the string 'test')
+    //Check out the output!
+    console.log(
+        client.query(['*'], (data)=>{
+            if (data.data == 'test') {
+                return true
+            }
+            return false
+        }, ['data', 'created'])
+    ) 
+
 
     //Save the database file
     client.save()
