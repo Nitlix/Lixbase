@@ -27,7 +27,7 @@ async function main() {
     client.backups.dir = 'custom_backups_dir_name'
 
     //Custom Dynamic ID Generation
-    client.format.id = '[SHARD]-[TIME]-[RANDOM]'
+    client.format.id = 'look-here-[SHARD]-[RANDOM]-[NEXT]'
 
     //No autosave
     client.autosave = -1
@@ -44,10 +44,10 @@ async function main() {
     client.addObject('account', {data: 'test', created: Date.now()}) 
 
     //Create new session object in the database
-    client.addObject('session', {data: 'test2'}, 5)
+    client.addObject('session', {data: 'test2'}, 50)
 
     //Create another session object in the database, just for show
-    client.addObject('session', {data: 'test3'}, 5)
+    client.addObject('session', {data: 'test3'}, 50)
 
     //Brand new query function, like SQL, but on steroids.
     //Returns a dict with objects that match the query function.
@@ -60,7 +60,7 @@ async function main() {
             }
             return false
         }, ['data', 'created'])
-    ) 
+    )
 
 
     //Save the database file

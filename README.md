@@ -1,4 +1,4 @@
-# Lixbase @1.0.6 [![Node.JS](https://img.shields.io/badge/NODE.JS-blueviolet?style=for-the-badge)](http://modejs.org/) [![MIT License](https://img.shields.io/badge/LICENSE-MIT-brightgreen?style=for-the-badge)]
+# Lixbase @1.0.7 [![Node.JS](https://img.shields.io/badge/NODE.JS-blueviolet?style=for-the-badge)](http://modejs.org/) [![MIT License](https://img.shields.io/badge/LICENSE-MIT-brightgreen?style=for-the-badge)]
 
 [![Banner](https://i.imgur.com/s9HwcMr.png)](http://modejs.org/)
 
@@ -238,11 +238,24 @@ client.databaseOrientation = {
 client.format.id
 // The format for dynamically generating IDs on the go.
 // The variables are:
-// [SHARD], [TIME], [RANDOM]
+// [SHARD], [TIME], [RANDOM], [NEXT]
+
 // Example:
 client.format.id = '[SHARD]-[TIME]-[RANDOM]'
 
 
+
+// The [NEXT] Variable must go at the end
+// it handles the going up of IDs in order.
+// For example: 
+client.shard = 'N1'
+client.format.id = '[SHARD]-[NEXT]'
+
+//The first object will have an ID of:
+'N1-0'
+//The next one will be:
+'N1-1'
+//And so on. 
 ```
 <br />
 

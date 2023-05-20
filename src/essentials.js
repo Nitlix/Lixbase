@@ -46,27 +46,33 @@ export const util = {
     },
 
     nextId(str) {
-        // Check if the string is empty, then initialize the string with "N1-0"
-        if (str === "") {
-            return "0";
+        if (str == ""){
+            return "0"
         }
 
-        // Get the last digit in the string
-        const lastDigitIndex = str.lastIndexOf("-");
-        const lastDigit = parseInt(str.slice(lastDigitIndex + 1), 10);
 
-        // Check if the last character in the string is a digit
-        if (Number.isNaN(lastDigit)) {
-            return ""; // If the last character is not a digit, return an empty string
+        //flip the string, and turn it into an array
+        let reverseArray = str.split("").reverse()
+        let nums = []
+        
+        for (let i = 0; i < reverseArray.length; i++) {
+            const char = reverseArray[i];
+            //check if the char is a integer
+            if (parseInt(char) == char) {
+                nums.push(char)
+            }
+            else {
+                break
+            }
         }
 
-        // Increment the last digit and replace it in the original string
-        const newLastDigit = (lastDigit + 1) % 10;
+        //flip the array back
+        nums.reverse()
 
-        // Get the substring that contains the new number string
-        const newNumberStr = str.slice(0, lastDigitIndex + 1) + newLastDigit;
-
-        return newNumberStr;
+        //turn array into string, then number
+        let num = parseInt(nums.join(""))
+        num += 1
+        return num.toString()
     }
 }
 

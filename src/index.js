@@ -56,38 +56,47 @@ Lixbase.Client = class {
 
 
     genId = {
-        gen: (steps) => {
-            //generate random uuid (steps) times
-            let random = ""
-            for (let i = 0; i < steps; i++) {
-                random += Math.random().toString(36).substring(2, 15)
-            }
+        gen: (len=16) => {
+            //generate random char (len) times
+            let random = Math.random().toString(36).substring(2, len+2)
 
             //new format copy
             let format = this.format.id.toString()
 
+            //replace [NEXT]
+
+            if (format.includes('[NEXT]')) {
+                let last = Object.keys(this.data.id)[Object.keys(this.data.id).length - 1]
+                if (last == undefined) {
+                    last = ""
+                }
+
+                format = format.replace('[NEXT]', util.nextId(last))
+            }
+
+
             //replace all the other placeholders
-            format = format.replace('[SHARD]', this.shard)
-            format = format.replace('[TIME]', util.unix.str())
-            format = format.replace('[RANDOM]', random)
-            
+            if (format.includes('[SHARD]')) {
+                format = format.replace('[SHARD]', this.shard)
+            }
+            if (format.includes('[TIME]')) {
+                format = format.replace('[TIME]', util.unix.str())
+            }
+            if (format.includes('[RANDOM]')) {
+                format = format.replace('[RANDOM]', random)
+            }
 
 
 
             return format        
         },
-        pure: (steps) => {
-            //generate random uuid (steps) times
-            let id = ""
-            for (let i = 0; i < steps; i++) {
-                id += Math.random().toString(36).substring(2, 15)
-            }
-            return `${id}`
+        pure: (len) => {
+            return Math.random().toString(36).substring(2, len+2)
         }
     }
 
 
-    addObject(name, data={}, idsteps=2) {
+    addObject(name, data={}, idsteps=16) {
         let id = this.genId.gen(idsteps, this.shard)
         while (this.data.id[id] != undefined){
             id = this.genId.gen(idsteps, this.shard)
