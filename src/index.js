@@ -164,7 +164,7 @@ Lixbase.Client = class {
             util.error(`Object ${id} does not exist.`)
             return false
         } else {
-            const objectData = JSONthis.data.id[id]
+            const objectData = JSON.parse(JSON.stringify(this.data.id[id]))
             await callback(objectData)
             delete this.data.id[id]
             this.data.batch[objectData.type].splice(this.data.batch[objectData.type].indexOf(id), 1)
