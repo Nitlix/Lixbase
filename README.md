@@ -1,6 +1,6 @@
-# Lixbase @1.0.7 [![Node.JS](https://img.shields.io/badge/NODE.JS-blueviolet?style=for-the-badge)](http://modejs.org/) [![MIT License](https://img.shields.io/badge/LICENSE-MIT-brightgreen?style=for-the-badge)]
+# Lixbase @1.0.8 [![Node.JS](https://img.shields.io/badge/NODE.JS-blueviolet?style=for-the-badge)](http://modejs.org/) [![MIT License](https://img.shields.io/badge/LICENSE-MIT-brightgreen?style=for-the-badge)]
 
-[![Banner](https://i.imgur.com/s9HwcMr.png)](http://modejs.org/)
+[![Banner](https://i.imgur.com/lM0hHM9.png)](http://modejs.org/)
 
 A manual sharded and managed NoSQL object-focused database made for the cool kids.
 ## Built with 💛 by Nitlix
