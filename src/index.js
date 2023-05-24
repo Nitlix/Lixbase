@@ -124,10 +124,16 @@ Lixbase.Client = class {
      * @param {function} callback - The callback function that will be called before the object is added using the processed data. Is awaited.
      * @returns 
      */
-    async addObject(name, data = {}, idsteps = 16, callback = (data) => {}) {
-        let id = this.genId.gen(idsteps, this.shard)
-        while (this.data.id[id] != undefined) {
+    async addObject(name, data = {}, idsteps = 16, customId=undefined, callback = (data) => {}) {
+        let id = null;
+        if (!customId) {
             id = this.genId.gen(idsteps, this.shard)
+            while (this.data.id[id] != undefined) {
+                id = this.genId.gen(idsteps, this.shard)
+            }
+        }
+        else {
+            id = customId
         }
 
         //unique copy

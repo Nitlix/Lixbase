@@ -1,6 +1,6 @@
 {
   "name": "lixbase",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A manual sharded and managed NoSQL object-focused database made for the cool kids.",
   "main": "src/index.js",
   "scripts": {
