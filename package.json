@@ -1,13 +1,21 @@
 {
   "name": "lixbase",
-  "version": "1.0.9",
-  "description": "A manual sharded and managed NoSQL object-focused database made for the cool kids.",
-  "main": "src/index.js",
+  "version": "2.0.0",
+  "description": "A manual sharded and managed NoSQL📦 object-focused database made for the cool kids.",
+  "main": "lixbase.js",
   "scripts": {
     "main": "npm run index"
   },
   "author": "Nitlix S.T.",
   "license": "MIT",
-  "type": "module",
-  "keywords": ["database", "nodejs", "backend", "management", "data"]
+  "keywords": [
+    "database",
+    "nodejs",
+    "backend",
+    "management",
+    "data"
+  ],
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
