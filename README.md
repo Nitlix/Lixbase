@@ -39,7 +39,7 @@ More added soon.
 Here is our initial starting file, where we use Lixbase to manage our database files.
 
 ```js
-import Lixbase from "./src/index.js"
+import Lixbase from "lixbase"
 
 
 async function main() {

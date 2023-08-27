@@ -1,6 +1,7 @@
 const Logger = require("./tools/Logger")
 const Unix = require("./tools/Unix")
 const checkFolderExistence = require("./tools/checkFolderExistence")
+const express = require("express")
 
 const fs = require("fs")
 const createFile = require("./tools/createFile")
@@ -8,19 +9,32 @@ const createFolder = require("./tools/createFolder")
 const readFile = require("./tools/readFile")
 const checkFileExistence = require("./tools/checkFileExistence")
 const removeFile = require("./tools/removeFile")
-
-class Lixbase {
-    version = "2.0.0"
-}
+const { default: VERSION } = require("../var/VERSION")
+const objectIdToPath = require("../tools/objectIdToPath")
 
 /**
- * The client class.
- * @class Client
- * @param {string} shard The shard of the client.
+ * The node class.
+ * @class Node
  */
-Lixbase.Server = class {
+
+
+
+
+module.exports = class Node{
     constructor(shard) {
-        this.shard = shard || "L1"
+        this.server = express()
+        this.server.use(express.json())
+        this.server.use(express.urlencoded({ extended: true }))
+        this.server.disable('x-powered-by')
+        this.server.use((req, res, next) => {
+            res.header("X-Powered-By", `Lixbase ${VERSION}`)
+            res.header("Access-Control-Allow-Origin", "*")
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+            next()
+        })
+
+
+
         this.dir = "LB_DATA"
         this.log = {
             name: `launch-${Unix.format("hh-mm-ss-dd-MM-YYYY")}.log`,
@@ -28,7 +42,7 @@ Lixbase.Server = class {
         }
 
         this.log.object = fs.createWriteStream(this.dir + "/" + this.log.name, {flags: 'a'})
-        this.idFormat = "[SHARD]-[UNIX]-[RANDOM]"
+        this.idFormat = "[UNIX]-[RANDOM]"
         this.defaults = {
             expiryTime: 3600
         }
@@ -62,8 +76,8 @@ Lixbase.Server = class {
 
 
     cacheObject(id){
-        const name = this.dir + "/" + this.shard + "/id/" + id + ".json"
-
+        const name = objectIdToPath(this.dir, id)
+        
         const object = {
             ...JSON.parse(readFile(name)),
             expiry: Unix.int() + this.defaults.expiryTime,
@@ -76,7 +90,7 @@ Lixbase.Server = class {
                 if (this.cache[id].expiry <= Unix.int()){
                     createFile(name, JSON.stringify(this.cache[id]))
                     delete this.cache[id]
-                    Logger.log(`Object "${id}" has naturally expired. A copy was saved to the shard "${this.shard}" system.`, this.log.object)
+                    Logger.log(`Object "${id}" has naturally expired. A copy was saved.`, this.log.object)
                 }
             }, (this.defaults.expiryTime + 1) * 1000)
         )
@@ -97,7 +111,7 @@ Lixbase.Server = class {
             return this.cache[id]
         }
         else {
-            const name = this.dir + "/" + this.shard + "/id/" + id + ".json"
+            const name = this.dir + "/id/" + id + ".json"
             if (checkFileExistence(name)){
                 return this.cacheObject(id)
             }
@@ -120,6 +134,9 @@ Lixbase.Server = class {
         return this.getObject(id)
     }
 
+
+    
+
     /**
      * Creates a predefined object with the input data.
      * @param {*} objectName The predefined object type name.
@@ -128,7 +145,7 @@ Lixbase.Server = class {
      */
     createObject(objectName, objectData){
         const id = this.generate.finalId()
-        const name = this.dir + "/" + this.shard + "/id/" + id + ".json"
+        const name = this.dir + "/id/" + id + ".json"
         
         const object = {
             ...this.objects[objectName].data,
@@ -162,7 +179,7 @@ Lixbase.Server = class {
 
         this.objects[objectData.type].collection.splice(this.objects[objectData.type].collection.indexOf(id), 1)
 
-        const name = this.dir + "/" + this.shard + "/id/" + id + ".json"
+        const name = objectIdToPath(this.dir, id)
         if (checkFileExistence(name)){
             removeFile(name)
         }
@@ -177,14 +194,14 @@ Lixbase.Server = class {
 
 
     shutdown(){
-        Logger.log(`Shutting down shard (${this.shard})...`, this.log.object)
+        Logger.log(`Shutting down this node...`, this.log.object)
         this.save()
         clearInterval(this.autosaveThread)
 
         for (const id in this.cache){
-            const name = this.dir + "/" + this.shard + "/id/" + id + ".json"
+            const name = objectIdToPath(this.dir, id)
             createFile(name, JSON.stringify(this.cache[id]))
-            Logger.log(`Saved a final copy of object "${id}" to the shard "${this.shard}" system.`, this.log.object)
+            Logger.log(`Saved a final copy of object "${id}" to this node system.`, this.log.object)
         }
 
         for (const checker of this.cacheCheckers){
@@ -297,4 +314,3 @@ Lixbase.Server = class {
 }
 
 
-module.exports = Lixbase

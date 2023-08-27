@@ -1,8 +1,13 @@
 {
   "name": "lixbase",
-  "version": "2.0.0",
-  "description": "A manual sharded and managed NoSQL📦 object-focused database made for the cool kids.",
-  "main": "lixbase.js",
+  "version": "3.0.0",
+  "exports": {
+    ".": "./src/node.js",
+    "./node": "./src/node.js",
+    "./core": "./src/core.js"
+  },
+  "description": "A groundbreaking 🔥 manual distributed and managed NoSQL📦 object-focused database, controlled by a Lixbase Core. Made for the cool kids.",
+  "main": "./src/node.js",
   "scripts": {
     "main": "npm run index"
   },
